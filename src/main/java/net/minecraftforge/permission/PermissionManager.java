@@ -186,4 +186,28 @@ public final class PermissionManager
         return checkPermission(new PermissionContext(sender), permission);
     }
 
+    public static String getPermission(PermissionContext context, String permission)
+    {
+        return permissionProvider.getPermission(context, permission);
+    }
+
+    public static String getPermission(EntityPlayer player, String permission)
+    {
+        return getPermission(new PermissionContext(player), permission);
+    }
+
+    public static String getPermission(ICommandSender sender, ICommand command, String permission)
+    {
+        return getPermission(new PermissionContext(sender, command), permission);
+    }
+
+    public static String getPermission(ICommandSender sender, ICommand command)
+    {
+        return getPermission(new PermissionContext(sender, command), getCommandPermission(command));
+    }
+
+    public static String getPermission(ICommandSender sender, String permission)
+    {
+        return getPermission(new PermissionContext(sender), permission);
+    }
 }
