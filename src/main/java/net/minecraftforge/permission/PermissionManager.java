@@ -142,8 +142,7 @@ public final class PermissionManager
     /**
      * <b>FOR INTERNAL USE ONLY</b> <br>
      * TODO This method should be removed in the PR
-     * 
-     * @param command
+     *
      */
     public static void registerCommandPermissions()
     {

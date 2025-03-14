@@ -1,0 +1,38 @@
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.0'
+}
+
+group = "com.forgeessentials.permissionapi"
+version = "1.0.0"
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+        // Azul covers the most platforms for Java 8 toolchains, crucially including MacOS arm64
+        vendor.set(JvmVendorSpec.AZUL)
+    }
+    // Generate sources and javadocs jars when building and publishing
+    withSourcesJar()
+    withJavadocJar()
+}
+
+minecraft {
+    mcVersion = '1.7.10'
+    username = 'Developer'
+    injectedTags.put 'VERSION', project.version
+}
+
+injectTags {
+    outputClassName.set("${project.group}.Tags")
+}
+
+processResources {
+    def projVersion = project.version.toString() // Needed for configuration cache to work
+    inputs.property("version", projVersion)
+
+    filesMatching("mcmod.info") {
+        expand("modVersion": projVersion)
+    }
+}
+
