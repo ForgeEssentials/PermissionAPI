@@ -5,7 +5,7 @@ public interface PermissionObject
 
     public String getPermissionNode();
 
-    public PermissionLevel getPermissionLevel();
+    public DefaultPermissionLevel getPermissionLevel();
 
     default public String getPermissionDescription() {
         return getPermissionNode();

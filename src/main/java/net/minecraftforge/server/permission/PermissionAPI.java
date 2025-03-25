@@ -53,7 +53,7 @@ public final class PermissionAPI
     @SuppressWarnings("deprecation")
     public static void registerDefaultPermissions()
     {
-        permissionProvider.registerNode(PERM_COMMANDBLOCK, PermissionLevel.OP_2, "Command Block Usage");
+        permissionProvider.registerNode(PERM_COMMANDBLOCK, DefaultPermissionLevel.OP_2, "Command Block Usage");
     }
 
     /* ------------------------------------------------------------ */
@@ -93,13 +93,13 @@ public final class PermissionAPI
         return DEFAULT_COMMAND_NODE + command.getCommandName();
     }
 
-    public static PermissionLevel getCommandLevel(ICommand command)
+    public static DefaultPermissionLevel getCommandLevel(ICommand command)
     {
         if (command instanceof PermissionObject)
             return ((PermissionObject) command).getPermissionLevel();
         if (command instanceof CommandBase)
-            return PermissionLevel.fromInteger(((CommandBase) command).getRequiredPermissionLevel());
-        return PermissionLevel.OP;
+            return DefaultPermissionLevel.fromInteger(((CommandBase) command).getRequiredPermissionLevel());
+        return DefaultPermissionLevel.OP;
     }
 
     public static String getCommandDescription(ICommand command) {
@@ -128,7 +128,7 @@ public final class PermissionAPI
      * @param permission
      * @param permissionLevel
      */
-    public static void registerCommandPermission(ICommand command, String permission, PermissionLevel permissionLevel, String description)
+    public static void registerCommandPermission(ICommand command, String permission, DefaultPermissionLevel permissionLevel, String description)
     {
         commandPermissions.put(command, permission);
         registerPermission(permission, permissionLevel, description);
@@ -162,7 +162,7 @@ public final class PermissionAPI
 
     /* ------------------------------------------------------------ */
 
-    public static void registerPermission(String permission, PermissionLevel level, String description)
+    public static void registerPermission(String permission, DefaultPermissionLevel level, String description)
     {
         permissionProvider.registerNode(permission, level, description);
     }

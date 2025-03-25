@@ -1,6 +1,6 @@
 package net.minecraftforge.server.permission;
 
-public enum PermissionLevel
+public enum DefaultPermissionLevel
 {
 
     ALL(0),
@@ -17,20 +17,20 @@ public enum PermissionLevel
 
     //TODO: Investigate changing this to OP_2 to be consistent with default op level settings
     //Alias to OP_4.  Allows api to respect op levels
-    public static final PermissionLevel OP = OP_4;;
+    public static final DefaultPermissionLevel OP = OP_4;;
     public final int opLevel;
 
-    private PermissionLevel(int opLevel)
+    private DefaultPermissionLevel(int opLevel)
     {
         this.opLevel = opLevel;
     }
 
-    public static PermissionLevel fromBoolean(boolean value)
+    public static DefaultPermissionLevel fromBoolean(boolean value)
     {
         return value ? ALL : NONE;
     }
 
-    public static PermissionLevel fromInteger(int value)
+    public static DefaultPermissionLevel fromInteger(int value)
     {
         switch (value)
         {

@@ -38,6 +38,6 @@ public interface IPermissionProvider
      * @param level
      *            Default access level for the permission
      */
-    void registerNode(String permission, PermissionLevel level, String description);
+    void registerNode(String permission, DefaultPermissionLevel level, String description);
 
 }

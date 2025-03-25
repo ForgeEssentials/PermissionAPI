@@ -16,7 +16,7 @@ public class DefaultPermissionProvider implements IPermissionProvider
     private static final String PERM_HELP = PermissionAPI.DEFAULT_COMMAND_NODE + ".help";
     private static final String PERM_ME = PermissionAPI.DEFAULT_COMMAND_NODE + ".me";
 
-    protected static final Map<String, PermissionLevel> permissions = new HashMap<String, PermissionLevel>();
+    protected static final Map<String, DefaultPermissionLevel> permissions = new HashMap<String, DefaultPermissionLevel>();
     protected static final Map<String, String> permissionDescriptions = new HashMap<String, String>();
 
     @Override
@@ -28,7 +28,7 @@ public class DefaultPermissionProvider implements IPermissionProvider
         if (PERM_TELL.equals(permission) || PERM_HELP.equals(permission) || PERM_ME.equals(permission))
             return true;
 
-        PermissionLevel level = permissions.get(permission);
+        DefaultPermissionLevel level = permissions.get(permission);
         if (level == null)
             return true;
         int opLevel = context.isPlayer() ? getOpLevel(context.getPlayer().getGameProfile()) : 0;
@@ -36,7 +36,7 @@ public class DefaultPermissionProvider implements IPermissionProvider
     }
 
     @Override
-    public void registerNode(String permission, PermissionLevel level, String description)
+    public void registerNode(String permission, DefaultPermissionLevel level, String description)
     {
         permissions.put(permission, level);
         permissionDescriptions.put(permission, description);
