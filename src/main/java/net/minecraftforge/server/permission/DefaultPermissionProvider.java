@@ -1,4 +1,4 @@
-package net.minecraftforge.permission;
+package net.minecraftforge.server.permission;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,15 +11,16 @@ import com.mojang.authlib.GameProfile;
 public class DefaultPermissionProvider implements IPermissionProvider
 {
 
-    private static final String PERM_SEED = PermissionManager.DEFAULT_COMMAND_NODE + ".seed";
-    private static final String PERM_TELL = PermissionManager.DEFAULT_COMMAND_NODE + ".tell";
-    private static final String PERM_HELP = PermissionManager.DEFAULT_COMMAND_NODE + ".help";
-    private static final String PERM_ME = PermissionManager.DEFAULT_COMMAND_NODE + ".me";
+    private static final String PERM_SEED = PermissionAPI.DEFAULT_COMMAND_NODE + ".seed";
+    private static final String PERM_TELL = PermissionAPI.DEFAULT_COMMAND_NODE + ".tell";
+    private static final String PERM_HELP = PermissionAPI.DEFAULT_COMMAND_NODE + ".help";
+    private static final String PERM_ME = PermissionAPI.DEFAULT_COMMAND_NODE + ".me";
 
     protected static final Map<String, PermissionLevel> permissions = new HashMap<String, PermissionLevel>();
+    protected static final Map<String, String> permissionDescriptions = new HashMap<String, String>();
 
     @Override
-    public boolean checkPermission(PermissionContext context, String permission)
+    public boolean hasPermission(PermissionContext context, String permission)
     {
         // Special permission checks from EntityPlayerMP
         if (PERM_SEED.equals(permission) && !MinecraftServer.getServer().isDedicatedServer())
@@ -35,9 +36,10 @@ public class DefaultPermissionProvider implements IPermissionProvider
     }
 
     @Override
-    public void registerPermission(String permission, PermissionLevel level)
+    public void registerNode(String permission, PermissionLevel level, String description)
     {
         permissions.put(permission, level);
+        permissionDescriptions.put(permission, description);
     }
 
     protected int getOpLevel(GameProfile profile)

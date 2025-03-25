@@ -1,4 +1,4 @@
-package net.minecraftforge.permission;
+package net.minecraftforge.server.permission;
 
 public enum PermissionLevel
 {

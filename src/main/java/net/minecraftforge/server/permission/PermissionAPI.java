@@ -1,4 +1,4 @@
-package net.minecraftforge.permission;
+package net.minecraftforge.server.permission;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -17,7 +17,7 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public final class PermissionManager
+public final class PermissionAPI
 {
 
     public static final String DEFAULT_COMMAND_NODE = "command.";
@@ -26,13 +26,13 @@ public final class PermissionManager
 
     protected static IPermissionProvider permissionProvider = new DefaultPermissionProvider();
 
-    protected static PermissionManager instance = new PermissionManager();
+    protected static PermissionAPI instance = new PermissionAPI();
 
     protected static Map<ICommand, String> commandPermissions = new WeakHashMap<>();
 
     /* ------------------------------------------------------------ */
 
-    public PermissionManager()
+    public PermissionAPI()
     {
         MinecraftForge.EVENT_BUS.register(this);
         registerDefaultPermissions();
@@ -53,7 +53,7 @@ public final class PermissionManager
     @SuppressWarnings("deprecation")
     public static void registerDefaultPermissions()
     {
-        permissionProvider.registerPermission(PERM_COMMANDBLOCK, PermissionLevel.OP_2);
+        permissionProvider.registerNode(PERM_COMMANDBLOCK, PermissionLevel.OP_2, "Command Block Usage");
     }
 
     /* ------------------------------------------------------------ */
@@ -102,6 +102,13 @@ public final class PermissionManager
         return PermissionLevel.OP;
     }
 
+    public static String getCommandDescription(ICommand command) {
+        if (command instanceof PermissionObject) {
+            return ((PermissionObject) command).getPermissionDescription();
+        } else {
+            return command.getCommandName();
+        }
+    }
     /**
      * <b>FOR INTERNAL USE ONLY</b> <br>
      * This method should not be called directly, but instead is called by forge upon registration of a new command
@@ -110,7 +117,7 @@ public final class PermissionManager
      */
     public static void registerCommandPermission(ICommand command)
     {
-        registerPermission(getCommandPermission(command), getCommandLevel(command));
+        registerPermission(getCommandPermission(command), getCommandLevel(command), command.getCommandName());
     }
 
     /**
@@ -121,10 +128,10 @@ public final class PermissionManager
      * @param permission
      * @param permissionLevel
      */
-    public static void registerCommandPermission(ICommand command, String permission, PermissionLevel permissionLevel)
+    public static void registerCommandPermission(ICommand command, String permission, PermissionLevel permissionLevel, String description)
     {
         commandPermissions.put(command, permission);
-        registerPermission(permission, permissionLevel);
+        registerPermission(permission, permissionLevel, description);
     }
 
     /**
@@ -134,9 +141,9 @@ public final class PermissionManager
      * @param command
      * @param permission
      */
-    public static void registerCommandPermission(ICommand command, String permission)
+    public static void registerCommandPermission(ICommand command, String permission, String description)
     {
-        registerCommandPermission(command, permission, getCommandLevel(command));
+        registerCommandPermission(command, permission, getCommandLevel(command), description);
     }
 
     /**
@@ -155,14 +162,14 @@ public final class PermissionManager
 
     /* ------------------------------------------------------------ */
 
-    public static void registerPermission(String permission, PermissionLevel level)
+    public static void registerPermission(String permission, PermissionLevel level, String description)
     {
-        permissionProvider.registerPermission(permission, level);
+        permissionProvider.registerNode(permission, level, description);
     }
 
     public static boolean checkPermission(PermissionContext context, String permission)
     {
-        return permissionProvider.checkPermission(context, permission);
+        return permissionProvider.hasPermission(context, permission);
     }
 
     public static boolean checkPermission(EntityPlayer player, String permission)

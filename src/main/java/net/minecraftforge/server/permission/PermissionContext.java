@@ -1,4 +1,4 @@
-package net.minecraftforge.permission;
+package net.minecraftforge.server.permission;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;

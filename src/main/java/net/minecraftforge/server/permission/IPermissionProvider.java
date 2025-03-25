@@ -1,4 +1,4 @@
-package net.minecraftforge.permission;
+package net.minecraftforge.server.permission;
 
 /**
  * Interface for permission management systems to implement
@@ -15,7 +15,7 @@ public interface IPermissionProvider
      *            The permission to check
      * @return Whether the permission is allowed
      */
-    boolean checkPermission(PermissionContext context, String permission);
+    boolean hasPermission(PermissionContext context, String permission);
 
     /**
      * Gets a permission value
@@ -28,7 +28,7 @@ public interface IPermissionProvider
      */
     default String getPermission(PermissionContext context, String permission) {
         //Use a default implementation because string permission values do not apply to the vanilla provider
-        return Boolean.toString(checkPermission(context, permission));
+        return Boolean.toString(hasPermission(context, permission));
     }
     /**
      * Notifies the permission manager about registered permissions
@@ -38,6 +38,6 @@ public interface IPermissionProvider
      * @param level
      *            Default access level for the permission
      */
-    void registerPermission(String permission, PermissionLevel level);
+    void registerNode(String permission, PermissionLevel level, String description);
 
 }
