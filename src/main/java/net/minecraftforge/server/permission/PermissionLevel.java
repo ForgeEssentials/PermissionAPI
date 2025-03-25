@@ -3,36 +3,31 @@ package net.minecraftforge.server.permission;
 public enum PermissionLevel
 {
 
-    TRUE(0),
+    ALL(0),
 
-    @Deprecated
     OP_1(1),
 
-    @Deprecated
     OP_2(2),
 
-    @Deprecated
     OP_3(3),
 
-    OP(4),
+    OP_4(4),
 
-    FALSE(5);
+    NONE(5);
 
-    private int opLevel;
+    //TODO: Investigate changing this to OP_2 to be consistent with default op level settings
+    //Alias to OP_4.  Allows api to respect op levels
+    public static final PermissionLevel OP = OP_4;;
+    public final int opLevel;
 
     private PermissionLevel(int opLevel)
     {
         this.opLevel = opLevel;
     }
 
-    public int getOpLevel()
-    {
-        return opLevel;
-    }
-
     public static PermissionLevel fromBoolean(boolean value)
     {
-        return value ? TRUE : FALSE;
+        return value ? ALL : NONE;
     }
 
     public static PermissionLevel fromInteger(int value)
@@ -40,7 +35,7 @@ public enum PermissionLevel
         switch (value)
         {
         case 0:
-            return TRUE;
+            return ALL;
         case 1:
             return OP_1;
         case 2:
@@ -48,9 +43,9 @@ public enum PermissionLevel
         case 3:
             return OP_3;
         case 4:
-            return OP;
+            return OP_4;
         default:
-            return FALSE;
+            return NONE;
         }
     }
 

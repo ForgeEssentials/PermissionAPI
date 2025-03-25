@@ -32,7 +32,7 @@ public class DefaultPermissionProvider implements IPermissionProvider
         if (level == null)
             return true;
         int opLevel = context.isPlayer() ? getOpLevel(context.getPlayer().getGameProfile()) : 0;
-        return level.getOpLevel() <= opLevel;
+        return level.opLevel <= opLevel;
     }
 
     @Override
